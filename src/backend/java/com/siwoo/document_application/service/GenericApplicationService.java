@@ -1,22 +1,40 @@
 package com.siwoo.document_application.service;
 
 import com.siwoo.document_application.exception.ApplicationDomainException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface GenericApplicationService<T,ID>  {
+public abstract class GenericApplicationService<T,ID>  {
 
-    T save(T t);
-    T edit(T t);
-    T get(ID id);
-    List<T> getAll();
-    void delete(T t);
+    /*generic repository*/
+    abstract JpaRepository<T,ID> getRepository();
+    /*get domain id*/
+    abstract ID getDomainId(T t);
 
-
-    default void validateNull(T t){
-        if(t == null){
-            throw new ApplicationDomainException("Entity is null","errors.null.domain");
-        }
+    T save(T entity){
+        return getRepository().save(entity);
     }
+
+    T edit(T entity){
+        return getRepository().save(entity);
+    }
+
+    Optional<T> get(ID id){
+        return getRepository().findById(id);
+    }
+
+    List<T> getAll(){
+        return getRepository().findAll();
+    }
+
+    /*return true if domain is deleted otherwise false*/
+    boolean delete(T entity){
+        getRepository().delete(entity);
+        return getRepository().existsById(getDomainId(entity));
+    }
+
+
 
 }

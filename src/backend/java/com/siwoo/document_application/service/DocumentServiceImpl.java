@@ -1,15 +1,29 @@
 package com.siwoo.document_application.service;
 
 import com.siwoo.document_application.domain.Document;
+import com.siwoo.document_application.repository.DocumentRepository;
+import com.siwoo.document_application.validator.DocumentValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
-import java.util.List;
 
-public class DocumentServiceImpl implements DocumentService {
-    @Override
+@Service("documentServiceImpl") @Transactional(readOnly = true)
+public class DocumentServiceImpl extends GenericApplicationService<Document,Long> implements DocumentService {
+
+    @Autowired DocumentRepository documentRepository;
+    @Autowired DocumentValidator documentValidator;
+
+    @Transactional(readOnly = false)
     public Document save(Document document, Errors errors) {
-        return null;
+        documentValidator.validateNew(document,errors);
+        /*Only if errors does not have error, save domain.*/
+        if(!errors.hasErrors()) { return save(document); }
+        /*return regardless of the validation*/
+        return document;
     }
 
     @Override
@@ -22,28 +36,14 @@ public class DocumentServiceImpl implements DocumentService {
         return null;
     }
 
+
     @Override
-    public Document save(Document document) {
-        return null;
+    JpaRepository<Document, Long> getRepository() {
+        return documentRepository;
     }
 
     @Override
-    public Document edit(Document document) {
-        return null;
-    }
-
-    @Override
-    public Document get(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Document> getAll() {
-        return null;
-    }
-
-    @Override
-    public void delete(Document document) {
-
+    Long getDomainId(Document document) {
+        return document.getId();
     }
 }

@@ -4,7 +4,9 @@ import com.siwoo.document_application.exception.domain.DocumentTagsException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.junit.Assert.*;
 
@@ -49,8 +51,20 @@ public class TestDocument {
         Document document = new Document();
         assertTrue("default hit must be 0",document.getHit()==0);
         assertTrue("ratings must be null(not 0)",document.getRatings() == null);
+        assertTrue("default secret is false",!document.isSecret());
         //assertTrue("ratings must be null(not 0)",document.getRatings() != .0);
     }
 
 
+    public static List<Document> createDocuments(){
+        return Arrays.asList(
+            new Document("title1","text1",false,null,0,null, null),
+                new Document("title2","text2",false,null,0,null, null),
+                new Document("title3","text3",false,null,0,null, null),
+                new Document("title4","text4",false,null,0,null, null),
+                new Document("title5","text5",false,null,0,null, null),
+                new Document("title6","text6",false,null,0,null, null),
+                new Document("title7","text7",false,null,0,null, null)
+        );
+    }
 }

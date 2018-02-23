@@ -4,7 +4,7 @@ import com.siwoo.document_application.domain.Document;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.Errors;
 
-public interface DocumentService extends GenericApplicationService<Document,Long>{
+public interface DocumentService {
 
     Document save(Document document,Errors errors);
     Document edit(Document document,Errors errors);

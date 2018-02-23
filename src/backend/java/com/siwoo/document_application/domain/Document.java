@@ -71,7 +71,7 @@ public class Document {
         the document cannot share with other member
     */
     @Convert(converter = BooleanToYNConverter.class)
-    private boolean secret;
+    private boolean secret = false;
 
     private String text;
 
@@ -90,5 +90,14 @@ public class Document {
     @Transient
     private Double ratings = null;
 
-
+    public Document(String title, String text, boolean secret, Member member, int hit,List<String> tags,LocalDateTime postDate) {
+        this.title = title;
+        this.tags = tags;
+        this.secret = secret;
+        this.text = text;
+        this.member = member;
+        this.postDate = postDate;
+        this.hit = hit;
+        this.ratings = ratings;
+    }
 }
