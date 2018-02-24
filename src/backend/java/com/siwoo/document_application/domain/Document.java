@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name="sb_document")
-@Getter @Setter @ToString
+@Getter @Setter @ToString(exclude = "member")
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @SequenceGenerator(
         name = "spring_document_generator",
         initialValue = 1,

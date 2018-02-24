@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DocumentValidatorTest {
+public class TestDocumentValidator {
 
     @Autowired DocumentValidator documentValidator;
 
@@ -30,7 +30,7 @@ public class DocumentValidatorTest {
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(null,"document");
         documentValidator.validateNew(null,errors);
         assertTrue("validator need to catch null",errors.hasErrors());
-        assertTrue("errors.null.domain".equals(errors.getGlobalError().getCode()));
+        assertTrue("error.null.document".equals(errors.getGlobalError().getCode()));
         //errors.null.domain error
 
         Document invalidHitDocument = documents.get(0);

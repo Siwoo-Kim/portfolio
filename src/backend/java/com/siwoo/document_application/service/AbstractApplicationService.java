@@ -1,12 +1,14 @@
 package com.siwoo.document_application.service;
 
-import com.siwoo.document_application.exception.ApplicationDomainException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class GenericApplicationService<T,ID>  {
+public abstract class AbstractApplicationService<T,ID>  {
 
     /*generic repository*/
     abstract JpaRepository<T,ID> getRepository();
@@ -25,14 +27,19 @@ public abstract class GenericApplicationService<T,ID>  {
         return getRepository().findById(id);
     }
 
+    /*Return Entities with Collection: Page or List*/
+    Page<T> getAll(Pageable pageable){
+        return getRepository().findAll(pageable);
+    }
+
     List<T> getAll(){
         return getRepository().findAll();
     }
 
     /*return true if domain is deleted otherwise false*/
-    boolean delete(T entity){
-        getRepository().delete(entity);
-        return getRepository().existsById(getDomainId(entity));
+    boolean delete(ID id){
+        getRepository().deleteById(id);
+        return !getRepository().existsById(id);
     }
 
 

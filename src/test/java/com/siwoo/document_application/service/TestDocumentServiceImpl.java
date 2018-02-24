@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 @Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DocumentServiceImplTest {
+public class TestDocumentServiceImpl {
 
     @Autowired DocumentService documentService;
     @Autowired DocumentRepository documentRepository;
@@ -44,6 +45,38 @@ public class DocumentServiceImplTest {
                 documents.get(0) == documentRepository
                         .findById(documents.get(0).getId()).get());
         log.warn(documentRepository.findById(documents.get(0).getId()).get().toString());
+
+    }
+
+    @Test
+    public void testGetDocument(){
+
+        documentRepository.save(documents.get(0));
+        Document document = documentService.getDocument(documents.get(0).getId());
+        assertNotNull(document);
+        log.warn(document.toString());
+        assertNull(documentService.getDocument(999L));
+
+    }
+
+    @Test
+    public void testDelete(){
+
+        documentRepository.save(documents.get(0));
+        Long id = documents.get(0).getId();
+        assertTrue(documentRepository.existsById(id));
+
+        assertTrue(documentService.delete(id));
+        assertFalse(documentRepository.existsById(id));
+    }
+
+    @Test
+    public void getDocuments(){
+        documentRepository.saveAll(documents);
+
+        documentService.getDocuments(Pageable.unpaged()).stream()
+                .map(Document::toString).forEach(log::warn);
+
 
     }
 }

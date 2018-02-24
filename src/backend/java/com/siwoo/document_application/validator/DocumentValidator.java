@@ -3,6 +3,7 @@ package com.siwoo.document_application.validator;
 import com.siwoo.document_application.domain.Document;
 import com.siwoo.document_application.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
@@ -20,10 +21,16 @@ public class DocumentValidator implements GenericValidator<Document,Long>{
         }
     }
 
-    @Override
-    public void validateId(Long id) {
 
+    /*strategy design pattern*/
+    @Override
+    public JpaRepository<Document, Long> getRepository() {
+        return documentRepository;
     }
 
+    @Override
+    public Class<? extends Document> getDomainClass() {
+        return Document.class;
+    }
 
 }
