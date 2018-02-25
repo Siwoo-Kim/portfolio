@@ -21,7 +21,6 @@ public class TestErrorMessage {
 
     @Test
     public void testResolvingErrorsMessage(){
-
         assertNotNull(messageSource.getMessage("error.invalid.document.tags.size",null, Locale.KOREA));
         assertNotNull(messageSource.getMessage("error.invalid.document.tags.size",null, Locale.ENGLISH));
         assertNotNull(messageSource.getMessage("error.invalid.document.tags.size",null, Locale.getDefault()));

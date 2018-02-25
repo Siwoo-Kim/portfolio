@@ -12,6 +12,11 @@ public class ApplicationDomainException extends RuntimeException {
     */
     String code;
 
+    @FunctionalInterface
+    public interface DomainExceptionConstructor<T extends ApplicationDomainException>{
+        T setErrorDetail(Object field,String code);
+    }
+
     public ApplicationDomainException(String message, String code) {
         super(message);
         this.code = code;
